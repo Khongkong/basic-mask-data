@@ -7,13 +7,10 @@ use MaskHandle\Mask;
 // read the csv file
 $url = 'http://data.nhi.gov.tw/Datasets/Download.ashx?rid=A21030000I-D50001-001&l=https://data.nhi.gov.tw/resource/mask/maskdata.csv';
 $raw_file = file_get_contents($url);
-$file_name = basename($url);
 
 // put csv into array
-$csv = array_map(function($val){
-    return array_slice($val, 1, 4);
-}, array_map("str_getcsv", preg_split('/\r*\n+|\r+/', $raw_file)));
-array_pop($csv);
+$mask = new Mask($raw_file);
+$csv = $mask->getCsv();
 
 // 搜尋機制
 $climate = new CLImate;
@@ -33,10 +30,10 @@ if($sortingMethod == '地址'){
 }
 
 // sorting 篩選結果
-$mask = new Mask($csv);
 $printList = $mask->wordAndNumberSort($sortingKey, $searchWord, $maskNum);
 
 // print out
+echo "\n". "搜尋結果:". "\n";
 if(count($printList) > 1){
     $climate->table($printList);
 }else{
