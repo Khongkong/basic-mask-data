@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . "/_mask.php";
 use League\CLImate\CLImate;
+use MaskHandle\Mask;
 
-// download the file
+// read the csv file
 $url = 'http://data.nhi.gov.tw/Datasets/Download.ashx?rid=A21030000I-D50001-001&l=https://data.nhi.gov.tw/resource/mask/maskdata.csv';
 $raw_file = file_get_contents($url);
 $file_name = basename($url);
@@ -30,16 +32,9 @@ if($sortingMethod == '地址'){
     $maskNum = (int)$numInput->prompt();
 }
 
-// sorting
-$head = array_shift($csv);
-$printList = array($head);
-if($searchWord){
-    foreach($csv as $val){
-        if(strpos($val[$sortingKey], $searchWord) !== false && $val[3] >= $maskNum){
-            $printList[] = $val;
-        }
-    }
-}
+// sorting 篩選結果
+$mask = new Mask($csv);
+$printList = $mask->wordAndNumberSort($sortingKey, $searchWord, $maskNum);
 
 // print out
 if(count($printList) > 1){
