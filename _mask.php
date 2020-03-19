@@ -13,7 +13,7 @@ class Mask {
         $this->head = $head;
         $this->csv = $csv;
     }
-    private function wordSort($sortingKey, $searchWord, $maskNum){
+    private function wordSearch($sortingKey, $searchWord, $maskNum){
         $printList = array();
         if($searchWord){
             foreach($this->csv as $val){
@@ -25,7 +25,7 @@ class Mask {
         return $printList;
     }
     public function wordAndNumberSort($sortingKey, $searchWord, $maskNum){
-        $printList = self::wordSort($sortingKey, $searchWord, $maskNum);
+        $printList = self::wordSearch($sortingKey, $searchWord, $maskNum);
         usort($printList, function($sortingKey, $searchWord){
             if ($sortingKey[3] == $searchWord[3]) {
                 return 0;
