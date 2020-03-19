@@ -30,7 +30,7 @@ class Mask {
             if ($sortingKey[3] == $searchWord[3]) {
                 return 0;
             }
-            return ($sortingKey[3] < $searchWord[3]) ? -1 : 1;
+            return ($sortingKey[3] > $searchWord[3]) ? -1 : 1;
         });
         array_unshift($printList, $this->head);
         return $printList;
